@@ -1,0 +1,16 @@
+export type Tile = {id:number;type:number};
+export type MeldKind='peng'|'openKong'|'closedKong'|'dragon'|'calledPair';
+export type Meld={kind:MeldKind;tiles:Tile[];type:number;indicatorIds?:number[];from?:number};
+export type Player={name:string;hand:Tile[];melds:Meld[];river:Tile[];score:number};
+export type Group={kind:'sequence'|'triplet';type:number};
+export type Split={pair:number;groups:Group[]};
+export type Line={label:string;value:number;detail?:string};
+export type Score={total:number;kind:string;base:number;raw:number;rounded:number;groupLines:Line[];extras:Line[];multipliers:Line[];split?:Split};
+export type Choice={player:number;actions:('hu'|'kong'|'peng')[]};
+export type Result={winner:number|null;from:number|null;tile:Tile|null;selfDraw:boolean;scores:Score[];deltas:number[];reason:string};
+export type Phase='declarations'|'discard'|'response'|'finished';
+export type VisualEvent={kind:'deal'|'draw'|'discard'|'peng'|'kong'|'dragon';actor:number;tile?:Tile;serial:number};
+export type Game={version:1;roundId?:string;round:number;dealer:number;sleeper:number;active:number[];players:Player[];deck:Tile[];indicators:Tile[];turn:number;phase:Phase;declareQueue:number[];pending?:{tile:Tile;from:number;choices:Choice[]};lastDraw?:{player:number;tile:Tile;kong:boolean};discards:number;log:string[];result?:Result;visual?:{serial:number;event:VisualEvent;play?:{tile:Tile;from:number};archive?:{tile:Tile;from:number;serial:number}}};
+export type TurnAction={kind:'closedKong'|'addKong';type:number};
+export type Declaration={type:number;kind:'dragon'|'calledPair';count:number;indicators:number[]};
+export type Action={kind:'declare';type:number}|{kind:'skipDeclare'}|{kind:'discard';id:number}|{kind:'hu'}|{kind:'closedKong'|'addKong';type:number}|{kind:'respond';action:'hu'|'kong'|'peng'|'pass';player:number};
